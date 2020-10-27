@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
@@ -34,13 +35,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        FirebaseApp.initializeApp(this);
+
+        String iidToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("Firebase", "Got token: " + iidToken);
+
 
         WebView webView = findViewById(R.id.webView);
 
         String input="https://www.zostel.com/";
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(input);
+
+
+
 
 //        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
 //            NotificationChannel notificationChannel = new NotificationChannel("MyNotification","Notification", NotificationManager.IMPORTANCE_DEFAULT);
