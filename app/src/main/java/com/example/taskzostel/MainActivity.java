@@ -36,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String iidToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d("Firebase", "Got token: " + iidToken);
-
 
         WebView webView = findViewById(R.id.webView);
 
@@ -46,23 +43,20 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(input);
 
+//        UtmSourceInfo utmSourceInfo=CampaignReceiver.retrieveReferralParams(getApplicationContext());
+//        utmSourceInfo.getUtmSource();
+//        Log.d("TAGUTM", "onCreate: "+utmSourceInfo.getUtmSource());
+//        utmSourceInfo.getUtmTerm();
+//        Log.d("TAGUTM", "onCreate: "+utmSourceInfo.getUtmTerm());
+//        utmSourceInfo.getUtmMedium();
+//        Log.d("TAGUTM", "onCreate: "+utmSourceInfo.getUtmMedium());
+//        utmSourceInfo.getUtmCampaign();
+//        Log.d("TAGUTM", "onCreate: "+utmSourceInfo.getUtmCampaign());
+//        utmSourceInfo.getUtmContent();
+//        Log.d("TAGUTM", "onCreate: "+utmSourceInfo.getUtmContent());
 
 
 
-//        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
-//            NotificationChannel notificationChannel = new NotificationChannel("MyNotification","Notification", NotificationManager.IMPORTANCE_DEFAULT);
-//            NotificationManager  manager = getSystemService(NotificationManager.class);
-//            manager.createNotificationChannel(notificationChannel);
-//        }
-////        FirebaseApp.initializeApp(this);
-//        FirebaseMessaging.getInstance().subscribeToTopic("general")
-//                .addOnCompleteListener(task -> {
-//                    String msg ="Successful";
-//                    if (!task.isSuccessful()) {
-//                        msg = "Failed";
-//                    }
-//                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                });
 
     }
 
