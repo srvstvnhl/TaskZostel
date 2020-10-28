@@ -15,40 +15,6 @@ import java.util.Map;
 public class CampaignReceiver extends BroadcastReceiver {
     public final static String[] EXPECTED_PARAMETER = {"utm_source",
             "utm_medium", "utm_term", "utm_content", "utm_campaign"};
-//    @Override
-//    public void onReceive(Context context, Intent intent) {
-//        Bundle extras = intent.getExtras();
-//        if(extras!=null) {
-//            String referrerString = extras.getString("referrer");
-//            Log.d("Referrer", referrerString);
-//
-//            String[] params = referrerString.split("&");
-//            for (String param : params){
-//                Log.d("TAGRef", "onReceive: "+param);
-//            }
-//
-//
-////            for (String param : params) {
-////                String[] pair = param.split("="); // $NON-NLS-1$
-////
-////                if (pair.length == 1) {
-////                    referralParams.put(pair[0], "AndroidApp");
-////                } else if (pair.length == 2) {
-////                    referralParams.put(pair[0], pair[1]);
-////                }
-////            }
-//        }
-//
-//
-////        try {
-////            new ReferralReceiver().onReceive(context,intent);
-////
-////        }
-////        catch (Exception e){
-////            e.printStackTrace();
-////        }
-//    }
-
 
     @Override
     public void onReceive(Context context, Intent intent) {

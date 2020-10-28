@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
@@ -22,14 +23,18 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 public class MessagingService extends FirebaseMessagingService {
+    String deviceAppUID;
 
     @Override
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         Log.d("TAG", "onNewToken: "+s);
         // token: f5ga4AB0R4K4dfZ-J1kdjZ:APA91bG0_z7boke8jIdA9sLH-BXFHBbCCy257BRN1ajPdTVbcvXHH2lbkWDHGXxcXinDj-XBx54jg5xHanQ-BJ9zF8ytmAG-2LtZaJmoMClQdNgrzDmdFnAftqd5RsvcCncn45uYqqwS
-        sendRegistrationToServer(s);
-        pushtToFirebase();
+
+
+        deviceAppUID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        storeDatabase(s);
     }
 
     @Override
@@ -37,43 +42,36 @@ public class MessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
 
     }
+
+    //Not used
     private void sendRegistrationToServer(String token) {
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("server/saving-data/IDs");
-        // then store your token ID
-        ref.push().setValue(token);
+
+//        ref.push().setValue(token);
+        ref.child(deviceAppUID).setValue(token);
     }
 
+    public void storeDatabase(String token){
+        FirebaseDatabase rootNode = FirebaseDatabase.getInstance();
+        DatabaseReference reference = rootNode.getReference("server/saving-data/DeviceIds");
 
-
-    public void pushtToFirebase(){
         UtmSourceInfo utmSourceInfo=CampaignReceiver.retrieveReferralParams(getApplicationContext());
-        utmSourceInfo.getUtmSource();
-        Log.d("TAGUTMService", "onCreate: "+utmSourceInfo.getUtmSource());
-        utmSourceInfo.getUtmTerm();
-        Log.d("TAGUTMService", "onCreate: "+utmSourceInfo.getUtmTerm());
-        utmSourceInfo.getUtmMedium();
-        Log.d("TAGUTMService", "onCreate: "+utmSourceInfo.getUtmMedium());
-        utmSourceInfo.getUtmCampaign();
-        Log.d("TAGUTMService", "onCreate: "+utmSourceInfo.getUtmCampaign());
-        utmSourceInfo.getUtmContent();
-        Log.d("TAGUTMService", "onCreate: "+utmSourceInfo.getUtmContent());
 
+        String src = utmSourceInfo.getUtmSource();
+        String term = utmSourceInfo.getUtmTerm();
+        String medium = utmSourceInfo.getUtmMedium();
+        String camp = utmSourceInfo.getUtmCampaign();
+        String content = utmSourceInfo.getUtmContent();
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference utmS = database.getReference("server/saving-data/UtmSrc");
-        // then store your token ID
-        utmS.push().setValue(utmSourceInfo.getUtmSource());
-
-        DatabaseReference utmM = database.getReference("server/saving-data/UtmMed");
-        // then store your token ID
-        String med = utmSourceInfo.getUtmMedium();
-        utmM.push().setValue(med);
-
-
+        UtmSourceInfo push = new UtmSourceInfo(src,medium,term,content,camp,token);
+        reference.child(deviceAppUID).setValue(push);
     }
 
+
+
+    //Not used
     public void sendNotification(String messageBody) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -101,7 +99,6 @@ public class MessagingService extends FirebaseMessagingService {
                     NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
-
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 

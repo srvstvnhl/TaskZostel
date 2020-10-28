@@ -7,6 +7,18 @@ public class UtmSourceInfo {
     public String utmTerm;
     public String utmContent;
     public String utmCampaign;
+    public String token;
+    public UtmSourceInfo(){
+
+    }
+    public UtmSourceInfo(String utmSource, String utmMedium, String utmTerm, String utmContent, String utmCampaign,String token) {
+        this.utmSource = utmSource;
+        this.utmMedium = utmMedium;
+        this.utmTerm = utmTerm;
+        this.utmContent = utmContent;
+        this.utmCampaign = utmCampaign;
+        this.token = token;
+    }
 
     public String getUtmCampaign() {
         return utmCampaign;
